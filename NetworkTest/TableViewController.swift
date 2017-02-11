@@ -1,0 +1,174 @@
+//
+//  TableViewController.swift
+//  NetworkTest
+//
+//  Created by david on 2/10/17.
+//  Copyright © 2017 david. All rights reserved.
+//
+
+import UIKit
+import SwiftyJSON
+
+enum Section: Int {
+  case favorites
+  case users
+  static let count = 2
+}
+
+extension Array where Element: Equatable {
+  mutating func remove(element: Element) {
+    if let index = self.index(of: element) {
+      self.remove(at: index)
+    }
+  }
+}
+
+class Debouncer {
+  var timer: Timer?
+  var delay: TimeInterval
+  var callback: () -> ()
+  
+  init(delay: TimeInterval, callback: @escaping () -> ()) {
+    self.delay = delay
+    self.callback = callback
+  }
+  
+  func call() {
+    self.timer?.invalidate()
+    self.timer = Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: false)
+  }
+  
+  @objc private func fireTimer() {
+    callback()
+  }
+}
+
+class FavoritesHeaderView: UIView {
+  var label: UILabel!
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    
+    let label = UILabel(frame: frame)
+    self.label = label
+    label.text = "Favorites"
+    label.textAlignment = .center
+    self.addSubview(label)
+    self.backgroundColor = UIColor.white
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
+
+class TableViewController: UITableViewController, UISearchBarDelegate {
+  
+  private let reuseIdentifier = "UserCell"
+  
+  var favorites = [User]()
+  var users = [User]()
+  
+  var searchBar: UISearchBar!
+  var favoritesHeaderView: FavoritesHeaderView!
+  
+  lazy var debouncer: Debouncer = {
+    Debouncer(delay: 0.25) { self.search() }
+  }()
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    let nib = UINib(nibName: "UserCell", bundle: nil)
+    self.tableView.register(nib, forCellReuseIdentifier: self.reuseIdentifier)
+    self.tableView.tableFooterView = UIView()
+    
+    let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44)
+    self.searchBar = UISearchBar(frame: frame)
+    self.favoritesHeaderView = FavoritesHeaderView(frame: frame)
+    
+    self.searchBar.delegate = self
+    self.searchBar.placeholder = "Search users"
+    self.searchBar.searchBarStyle = .minimal
+    
+
+  }
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    debouncer.call()
+  }
+  
+  func search() {
+    guard let text = self.searchBar.text, text != "" else {
+      self.users.removeAll()
+      self.tableView.reloadData()
+      return
+    }
+    
+    APIController.instance.get(entity: "users", search: text) { json in
+      if let items = json?["items"].array {
+        self.users = items.map { User(json: $0) }.filter {
+          !self.favorites.contains($0)
+        }
+        
+        self.tableView.reloadData()
+      }
+    }
+  }
+
+  // MARK: - Table view data source
+
+  override func numberOfSections(in tableView: UITableView) -> Int {
+    return Section.count
+  }
+  
+  override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 44
+  }
+  
+  override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    switch Section(rawValue: section)! {
+    case .favorites:
+      self.favoritesHeaderView.label.text = "Favorites: \(self.favorites.count)"
+      return self.favoritesHeaderView
+    case .users: return self.searchBar
+    }
+  }
+
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    switch Section(rawValue: section)! {
+    case .favorites: return self.favorites.count
+    case .users: return self.users.count
+    }
+  }
+
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: self.reuseIdentifier, for: indexPath) as! UserCell
+    
+    switch Section(rawValue: indexPath.section)! {
+    case .favorites: cell.user = self.favorites[indexPath.row]
+    case .users: cell.user = self.users[indexPath.row]
+    }
+
+    return cell
+  }
+  
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 64
+  }
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    self.tableView.deselectRow(at: indexPath, animated: true)
+    
+    switch Section(rawValue: indexPath.section)! {
+    case .favorites:
+      self.favorites.remove(at: indexPath.row)
+    case .users:
+      let user = self.users[indexPath.row]
+      self.favorites.append(user)
+    }
+    
+    self.tableView.reloadSections(IndexSet([0]), with: .automatic)
+  }
+}
