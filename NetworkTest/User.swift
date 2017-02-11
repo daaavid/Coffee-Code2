@@ -19,6 +19,7 @@ class User: Equatable {
   var login: String
   var id: String
   var avatar_url: String
+  var avatar: UIImage?
   
   init(json: JSON) {
     self.login = json["login"].stringValue

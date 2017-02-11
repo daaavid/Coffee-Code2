@@ -73,7 +73,7 @@ class TableViewController: UITableViewController, UISearchBarDelegate {
   var favoritesHeaderView: FavoritesHeaderView!
   
   lazy var debouncer: Debouncer = {
-    Debouncer(delay: 0.25) { self.search() }
+    Debouncer(delay: 0.5) { self.search() }
   }()
 
   override func viewDidLoad() {
@@ -101,15 +101,13 @@ class TableViewController: UITableViewController, UISearchBarDelegate {
   func search() {
     guard let text = self.searchBar.text, text != "" else {
       self.users.removeAll()
-      self.tableView.reloadData()
+      self.tableView.reloadSections(IndexSet([1]), with: .automatic)
       return
     }
     
     APIController.instance.get(entity: "users", search: text) { json in
       if let items = json?["items"].array {
-        self.users = items.map { User(json: $0) }.filter {
-          !self.favorites.contains($0)
-        }
+        self.users = items.map { User(json: $0) }
         
         self.tableView.reloadData()
       }
@@ -123,7 +121,10 @@ class TableViewController: UITableViewController, UISearchBarDelegate {
   }
   
   override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return 44
+    switch Section(rawValue: section)! {
+    case .favorites: return self.favorites.count == 0 ? 0 : 44
+    case .users: return 44
+    }
   }
   
   override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -146,8 +147,11 @@ class TableViewController: UITableViewController, UISearchBarDelegate {
     let cell = tableView.dequeueReusableCell(withIdentifier: self.reuseIdentifier, for: indexPath) as! UserCell
     
     switch Section(rawValue: indexPath.section)! {
-    case .favorites: cell.user = self.favorites[indexPath.row]
-    case .users: cell.user = self.users[indexPath.row]
+    case .favorites:
+      cell.user = self.favorites[indexPath.row]
+    case .users:
+      cell.avatarImageView.image = nil
+      cell.user = self.users[indexPath.row]
     }
 
     return cell
