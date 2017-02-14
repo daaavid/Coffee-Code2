@@ -8,57 +8,10 @@
 
 import UIKit
 
-enum Section: Int {
+fileprivate enum Section: Int {
   case favorites
   case users
   static let count = 2
-}
-
-extension Array where Element: Equatable {
-  mutating func remove(element: Element) {
-    if let index = self.index(of: element) {
-      self.remove(at: index)
-    }
-  }
-}
-
-class Debouncer {
-  var timer: Timer?
-  var delay: TimeInterval
-  var callback: () -> ()
-  
-  init(delay: TimeInterval, callback: @escaping () -> ()) {
-    self.delay = delay
-    self.callback = callback
-  }
-  
-  func call() {
-    self.timer?.invalidate()
-    self.timer = Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: false)
-  }
-  
-  @objc private func fireTimer() {
-    callback()
-  }
-}
-
-class FavoritesHeaderView: UIView {
-  var label: UILabel!
-  
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    
-    let label = UILabel(frame: frame)
-    self.label = label
-    label.text = "Favorites"
-    label.textAlignment = .center
-    self.addSubview(label)
-    self.backgroundColor = UIColor.white
-  }
-  
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
 }
 
 class TableViewController: UITableViewController, UISearchBarDelegate {

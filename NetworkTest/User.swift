@@ -29,13 +29,3 @@ class User: Equatable {
     self.avatar_url = json["avatar_url"].stringValue
   }
 }
-
-extension UIImage {
-  static func download(url: String, callback:@escaping (_ image: UIImage) -> ()) {
-    Alamofire.request(url).responseImage { response in
-      if let image = response.result.value {
-        callback(image)
-      }
-    }
-  }
-}
