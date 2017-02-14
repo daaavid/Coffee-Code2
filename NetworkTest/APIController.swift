@@ -10,7 +10,6 @@ import Foundation
 import Alamofire
 
 class APIController {
-  
   static let instance = APIController()
   
   func get(
@@ -22,19 +21,11 @@ class APIController {
     print("request url: \(url)")
     
     Alamofire.request(url).responseJSON { response in
-      
       if let results = response.result.value as? [String: AnyObject] {
         callback(results)
       } else {
         callback(nil)
       }
-      
-//      switch response.result {
-//      case .success(let data):
-//        callback(JSON(data))
-//      case .failure:
-//        callback(nil)
-//      }
     }
   }
 }

@@ -13,6 +13,9 @@
 		633160781E4D483F00489A69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 633160771E4D483F00489A69 /* Assets.xcassets */; };
 		6331607B1E4D483F00489A69 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 633160791E4D483F00489A69 /* LaunchScreen.storyboard */; };
 		633160851E4D488B00489A69 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633160841E4D488B00489A69 /* APIController.swift */; };
+		63A323C61E534EA300364669 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A323C51E534EA300364669 /* Extensions.swift */; };
+		63A323C81E534F0C00364669 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A323C71E534F0C00364669 /* Debouncer.swift */; };
+		63A323CA1E534F3D00364669 /* FavoritesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A323C91E534F3D00364669 /* FavoritesHeaderView.swift */; };
 		63FE9BF31E4E9BC30009AE7A /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FE9BF21E4E9BC30009AE7A /* TableViewController.swift */; };
 		63FE9BF51E4E9CDA0009AE7A /* UserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63FE9BF41E4E9CDA0009AE7A /* UserCell.xib */; };
 		63FE9BF71E4E9D000009AE7A /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FE9BF61E4E9D000009AE7A /* UserCell.swift */; };
@@ -29,6 +32,9 @@
 		6331607A1E4D483F00489A69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6331607C1E4D483F00489A69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		633160841E4D488B00489A69 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
+		63A323C51E534EA300364669 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		63A323C71E534F0C00364669 /* Debouncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
+		63A323C91E534F3D00364669 /* FavoritesHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesHeaderView.swift; sourceTree = "<group>"; };
 		63FE9BF21E4E9BC30009AE7A /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		63FE9BF41E4E9CDA0009AE7A /* UserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCell.xib; sourceTree = "<group>"; };
 		63FE9BF61E4E9D000009AE7A /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
@@ -82,6 +88,9 @@
 				633160841E4D488B00489A69 /* APIController.swift */,
 				6321B25B1E4E989800DA507A /* User.swift */,
 				63FE9BF61E4E9D000009AE7A /* UserCell.swift */,
+				63A323C51E534EA300364669 /* Extensions.swift */,
+				63A323C71E534F0C00364669 /* Debouncer.swift */,
+				63A323C91E534F3D00364669 /* FavoritesHeaderView.swift */,
 				633160821E4D486C00489A69 /* UI */,
 				633160831E4D487A00489A69 /* Misc */,
 			);
@@ -243,8 +252,11 @@
 			files = (
 				6321B25C1E4E989800DA507A /* User.swift in Sources */,
 				63FE9BF71E4E9D000009AE7A /* UserCell.swift in Sources */,
+				63A323C81E534F0C00364669 /* Debouncer.swift in Sources */,
+				63A323CA1E534F3D00364669 /* FavoritesHeaderView.swift in Sources */,
 				633160711E4D483F00489A69 /* AppDelegate.swift in Sources */,
 				63FE9BF31E4E9BC30009AE7A /* TableViewController.swift in Sources */,
+				63A323C61E534EA300364669 /* Extensions.swift in Sources */,
 				633160851E4D488B00489A69 /* APIController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
