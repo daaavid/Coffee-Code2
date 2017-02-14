@@ -105,8 +105,8 @@ class TableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     APIController.instance.get(entity: "users", search: text) { results in
-      if let items = results?["items"] as? [[String: Any]] {
-        self.users = items.flatMap { User(JSON: $0) }
+      if let items = results?["items"].array {
+        self.users = items.flatMap { User(json: $0) }
         self.tableView.reloadData()
       }
     }

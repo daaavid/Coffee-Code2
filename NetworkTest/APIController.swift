@@ -8,33 +8,26 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 class APIController {
-  
   static let instance = APIController()
   
   func get(
     entity: String,
     search: String,
-    callback: @escaping (_ results: [String: AnyObject]?) -> ()) {
+    callback: @escaping (_ results: JSON?) -> ()) {
     
     let url = "https://api.github.com/search/\(entity)?q=\(search)"
     print("request url: \(url)")
     
     Alamofire.request(url).responseJSON { response in
-      
-      if let results = response.result.value as? [String: AnyObject] {
-        callback(results)
-      } else {
+      switch response.result {
+      case .success(let data):
+        callback(JSON(data))
+      case .failure:
         callback(nil)
       }
-      
-//      switch response.result {
-//      case .success(let data):
-//        callback(JSON(data))
-//      case .failure:
-//        callback(nil)
-//      }
     }
   }
 }
