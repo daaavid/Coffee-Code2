@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyJSON
 
 enum Section: Int {
   case favorites
@@ -105,10 +104,9 @@ class TableViewController: UITableViewController, UISearchBarDelegate {
       return
     }
     
-    APIController.instance.get(entity: "users", search: text) { json in
-      if let items = json?["items"].array {
-        self.users = items.map { User(json: $0) }
-        
+    APIController.instance.get(entity: "users", search: text) { results in
+      if let items = results?["items"] as? [[String: Any]] {
+        self.users = items.flatMap { User(JSON: $0) }
         self.tableView.reloadData()
       }
     }

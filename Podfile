@@ -6,6 +6,7 @@ target 'NetworkTest' do
   use_frameworks!
   # Pods for NetworkTest
   pod 'SwiftyJSON'
+  pod 'ObjectMapper'
   pod 'Alamofire'
   pod 'AlamofireImage'
 

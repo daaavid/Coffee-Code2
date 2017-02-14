@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ObjectMapper.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-NetworkTest.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,7 +32,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>48568754526FB04C683ED9CC9C593863</key>
+		<key>0C1144892C1653C82FBEA0A30E6D278F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>12506742C40856F1E147DC7B58249719</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -42,7 +52,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A001F4CC2C704E7EF61E5C571331BD58</key>
+		<key>B43918AB915242B851ABEFB5D70BE0AD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
